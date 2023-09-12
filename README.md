@@ -1,26 +1,51 @@
-#  Как работать с репозиторием финального задания
+## Описание проекта:
 
-## Что нужно сделать
+Проект kittygram- это сервис для просмотра изображений и достижений различных котиков. С помощью kittygram можно запрашивать данные о котиках, их год рождения, цвет, достижения и само фото питомца. kittygram - это учебный проект курса "backend-python" от Яндекс-Практикума.
 
-Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
 
-## Как проверить работу с помощью автотестов
+### Как запустить проект:
 
-В корне репозитория создайте файл tests.yml со следующим содержимым:
-```yaml
-repo_owner: ваш_логин_на_гитхабе
-kittygram_domain: полная ссылка (https://доменное_имя) на ваш проект Kittygram
-taski_domain: полная ссылка (https://доменное_имя) на ваш проект Taski
-dockerhub_username: ваш_логин_на_докерхабе
-```
+1.  Клонировать репозиторий и перейти в него в командной строке:
+    
+    -   git clone git@github.com:tarassanda/kittygram_final.git
+    -   cd kittygram_final
+2.  Cоздать и активировать виртуальное окружение:
+    
+    -   python3 -m venv venv
+    -   source venv/bin/activate
 
-Скопируйте содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
+для windows систем: - python -m venv venv - source/Scripts/activate
 
-Для локального запуска тестов создайте виртуальное окружение, установите в него зависимости из backend/requirements.txt и запустите в корневой директории проекта `pytest`.
+3.  Обновить pip:
+    -   python3 -m pip install --upgrade pip
 
-## Чек-лист для проверки перед отправкой задания
+для windows систем: - python -m pip install --upgrade pip
 
-- Проект Taski доступен по доменному имени, указанному в `tests.yml`.
-- Проект Kittygram доступен по доменному имени, указанному в `tests.yml`.
-- Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
-- В корне проекта есть файл `kittygram_workflow.yml`.
+4.  Установить docker в вашу операционную систему.
+
+5.  Из папки cоздать образы и запустить сеть контейнеров:
+    -   docker compose build
+    -   docker compose up
+
+6.  выполнить сборку статики и миграций:
+    -   docker compose exec backend python manage.py collectstatic
+    -   docker compose exec backend cp -r /app/collected_static/. /backend_static/static/ 
+    -   docker exec taski_backend_container python manage.py migrate
+
+
+### Основные доступные эндпоинты:
+
+1.  https://taras-kittygram.sytes.net :
+    -   Главная страница проекта 
+2.  https://taras-kittygram.sytes.net/signin :
+    -   Регистрация и вход
+
+3.  https://taras-kittygram.sytes.net/cats/(some_id) :
+    -   Информация о котике
+
+4.  https://taras-kittygram.sytes.net/admin/ :
+    -   Страница администрирования проекта
+
+5.  https://taras-kittygram.sytes.net/api/ :
+    -   Информация об api
+
